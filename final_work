@@ -1,0 +1,32 @@
+import xml.dom.minidom
+import os
+import glob
+import pandas as pd
+import numpy as np
+
+path = "/home/vinh/Downloads/final_work"
+#set working directory
+os.chdir(path)
+
+filename_of_kml_file  = "/home/vinh/Downloads/final_work/checkin_tky.kml"
+
+#find all csv files in the folder
+#use glob pattern matching -> extension = 'csv'
+#save result in list -> all_filenames
+extension = 'csv'
+
+#creating a list of csv file destination
+tokyo_checkin = glob.glob(path + "/dataset/dataset_TSMC2014_TKY." + extension, recursive=True)
+
+#creating dataframe from csv files
+for f in tokyo_checkin:
+    tokyo_frame = pd.read_csv(f) 
+#print(tokyo_frame)
+
+df1 = tokyo_frame.loc[:,['latitude', 'longitude', 'utcTimestamp']] #selects 3 columns 
+df1.reset_index(drop=True, inplace=True)
+df1 = df1[['utcTimestamp', 'latitude', 'longitude']] #rearrange columns position
+#print(df1)
+df1.to_csv("final_frame_tokyo", index=False, encoding='utf-8-sig')
+
+
