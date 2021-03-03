@@ -79,6 +79,7 @@ def create_google_kml_override_map(list_of_locations):
             coorElement = kmlDoc.createElement("coordinates")    
             #timeStampElement = kmlDoc.createElement("gx:TimeStamp")   #TimeStamp 
 
+            #adding coordinates
             coordinates = f"{longitude},{latitude},0"
             coorElement.appendChild(kmlDoc.createTextNode(coordinates))
             pointElement.appendChild(coorElement)
@@ -88,24 +89,27 @@ def create_google_kml_override_map(list_of_locations):
             #whenElementAbove2.appendChild(kmlDoc.createTextNode(strtimeStampAbove2))
             #timeStampElement.appendChild(whenElementAbove2)
 
-            # colors to be set this way : aabbggrr #
-            color = "ff0000FF" #red
-
             placemarkElement = kmlDoc.createElement("Placemark")
             colorElement = kmlDoc.createElement("color")
             scaleElement = kmlDoc.createElement("scale")
 
+
             iconStyleElement.appendChild(colorElement)
             iconStyleElement.appendChild(scaleElement)
 
+            #color of icon
+            # colors to be set this way : aabbggrr #
+            color = "ff0000FF" #red
             strColor= color
             colorText = kmlDoc.createTextNode(strColor)
             colorElement.appendChild(colorText)
 
+            #choosing the scale for icon
             strscaleElement = "0.5" 
             scaleText = kmlDoc.createTextNode(strscaleElement)
             scaleElement.appendChild(scaleText)
 
+            #choosing favourite icon shape
             hrefText = kmlDoc.createTextNode("http://maps.google.com/mapfiles/kml/shapes/shaded_dot.png")
             hrefElement.appendChild(hrefText)
             styleElement.appendChild(iconStyleElement)
@@ -115,10 +119,13 @@ def create_google_kml_override_map(list_of_locations):
             iconStyleElement.appendChild(iconElement)
             iconElement.appendChild(hrefElement) 
 
+
             placemarkElement.appendChild(pointElement)
             placemarkElement.appendChild(styleElement)
                 
+
             processChild(placemarkElement)
+
 
             folderElement.appendChild(placemarkElement)
 
