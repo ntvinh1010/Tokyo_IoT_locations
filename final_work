@@ -3,6 +3,8 @@ import os
 import glob
 import pandas as pd
 import numpy as np
+import time
+import datetime
 
 path = "/home/vinh/Downloads/final_work"
 #set working directory
@@ -42,12 +44,10 @@ def create_google_kml_override_map(list_of_locations):
     Returns: xml.dom.minidom.Document(): A KML document
     """
     kmlDoc = xml.dom.minidom.Document()
-    kmlRootElement = kmlDoc.createElementNS(
-        "http://earth.google.com/kml/2.2", "kml"
-    )
+    kmlRootElement = kmlDoc.createElementNS("http://earth.google.com/kml/2.2", "kml")
 
-    # colors to be set this way : aabbggrr #
-    color = "ff0000FF" #red
+    kmlRootElement.setAttributeNS("", "xmlns", "http://www.opengis.net/kml/2.2")
+    kmlRootElement.setAttributeNS("xmls", "xmlns:gx", "http://www.google.com/kml/ext/2.2")
 
     kmlRootElement = kmlDoc.appendChild(kmlRootElement)
     documentElement = kmlDoc.createElement("Document")
@@ -66,11 +66,11 @@ def create_google_kml_override_map(list_of_locations):
         # Point tag and its children #
         latitude = location[1]
         longitude = location[2]
-        timeStamp = location [0]
+        #timeStamp = location [0]
         #type(latitude)
         #type(longitude)
 
-        if (not (np.isnan(latitude))) and (not np.isnan(longitude)) and latitude != 0  and longitude != 0: # and (not np.nan == longitude):
+        if (not (np.isnan(latitude))) and (not np.isnan(longitude)) and latitude != 0  and longitude != 0: 
             iconStyleElement = kmlDoc.createElement("IconStyle")
             styleElement = kmlDoc.createElement("Style")
             iconElement = kmlDoc.createElement("Icon")
@@ -88,6 +88,8 @@ def create_google_kml_override_map(list_of_locations):
             #whenElementAbove2.appendChild(kmlDoc.createTextNode(strtimeStampAbove2))
             #timeStampElement.appendChild(whenElementAbove2)
 
+            # colors to be set this way : aabbggrr #
+            color = "ff0000FF" #red
 
             placemarkElement = kmlDoc.createElement("Placemark")
             colorElement = kmlDoc.createElement("color")
@@ -100,7 +102,7 @@ def create_google_kml_override_map(list_of_locations):
             colorText = kmlDoc.createTextNode(strColor)
             colorElement.appendChild(colorText)
 
-            strscaleElement = "0.1" 
+            strscaleElement = "0.5" 
             scaleText = kmlDoc.createTextNode(strscaleElement)
             scaleElement.appendChild(scaleText)
 
@@ -114,6 +116,7 @@ def create_google_kml_override_map(list_of_locations):
             iconElement.appendChild(hrefElement) 
 
             placemarkElement.appendChild(pointElement)
+            placemarkElement.appendChild(styleElement)
                 
             processChild(placemarkElement)
 
