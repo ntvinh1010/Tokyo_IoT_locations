@@ -32,7 +32,7 @@ df1 = df1[['utcTimestamp', 'latitude', 'longitude']] #rearrange columns position
 #print(df1)
 
 #generate a final dataframe and save it at path.
-df1.to_csv("final_frame_tokyo", index=False, encoding='utf-8-sig')
+df1.to_csv("final_frame_tokyo.csv", index=False, encoding='utf-8-sig')
 
 #Function to generate KML file
 def processChild(node):
